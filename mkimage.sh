@@ -9,15 +9,14 @@ exec >/dev/tty 2>/dev/tty </dev/tty
 cd $(dirname "${BASH_SOURCE[0]}")
 
 pacman -Syu --noconfirm arch-install-scripts tar
-
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
 pacstrap -c -d -G $rootfs $(cat packages)
 
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
-pacman-key --init
-pacman-key --populate
+arch-chroot $rootfs pacman-key --init
+arch-chroot $rootfs pacman-key --populate
 
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
