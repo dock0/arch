@@ -42,6 +42,9 @@ ln -s /proc/self/fd/1 $dev/stdout
 ln -s /proc/self/fd/2 $dev/stderr
 ln -s /proc/self/fd $dev/fd
 
+rm -rf /user/share/man/*
+find /usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec rm -r {} \;
+
 rm -rf root.tar.xz
 tar --numeric-owner -C $rootfs -cJvf root.tar.xz .
 
