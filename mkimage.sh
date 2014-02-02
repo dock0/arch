@@ -16,6 +16,9 @@ pacstrap -c -d -G $rootfs $(cat packages)
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
+pacman-key --init
+pacman-key --populate
+
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen
@@ -46,5 +49,5 @@ rm -rf /user/share/man/*
 find /usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec rm -r {} \;
 
 rm -rf root.tar.xz
-tar --numeric-owner -C $rootfs -cJvf root.tar.xz .
+tar --numeric-owner -C $rootfs -cJf root.tar.xz .
 
