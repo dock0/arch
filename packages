@@ -1,0 +1,16 @@
+git
+gzip
+haveged
+inetutils
+iproute2
+iputils
+lsof
+net-tools
+nmap
+pacman
+procps-ng
+psmisc
+strace
+tmux
+tree
+vim
