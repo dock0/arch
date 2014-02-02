@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 # Based on https://raw2.github.com/tmc/docker/master/contrib/mkimage-arch.sh
-#
-# To use:
-# git clone git@github.com:akerl/dockerfiles.git /opt/dockerfiles
-# docker run -privileged -t -i -v /opt/dockerfiles/raw-arch:/opt akerl/arch /opt/mkimage.sh
 
 set -e
 
