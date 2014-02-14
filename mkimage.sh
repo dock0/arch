@@ -3,9 +3,6 @@
 
 set -e
 
-# Hack for https://github.com/dotcloud/docker/issues/728
-exec >/dev/tty 2>/dev/tty </dev/tty
-
 cd $(dirname "${BASH_SOURCE[0]}")
 
 pacman -Syu --noconfirm arch-install-scripts tar
