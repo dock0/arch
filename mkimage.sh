@@ -3,18 +3,24 @@
 
 set -e
 
+# chdir to the script path
 cd $(dirname "${BASH_SOURCE[0]}")
 
-pacman -Syu --noconfirm arch-install-scripts tar
+# Get the necessary packages on the build system
+pacman -Syu --needed --noconfirm arch-install-scripts tar base-devel
+# Bootstrap the new image with packages
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
 pacstrap -c -d -G $rootfs $(cat packages)
 
+# Load on the pacman config
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
+# Load pacman keys
 arch-chroot $rootfs pacman-key --init
 arch-chroot $rootfs pacman-key --populate
 
+# Set locale/timezone
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen
@@ -35,15 +41,16 @@ mknod -m 666 $dev/tty0 c 4 0
 mknod -m 666 $dev/full c 1 7
 mknod -m 600 $dev/initctl p
 mknod -m 666 $dev/ptmx c 5 2
-
 ln -s /proc/self/fd/0 $dev/stdin
 ln -s /proc/self/fd/1 $dev/stdout
 ln -s /proc/self/fd/2 $dev/stderr
 ln -s /proc/self/fd $dev/fd
 
+# Clean up some junk on the filesystem
 rm -rf $rootfs/user/share/man/*
 find $rootfs/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec rm -r {} \;
 
+# Pack up the new image
 rm -rf root.tar.xz
 tar --numeric-owner -C $rootfs -cJf root.tar.xz .
 
