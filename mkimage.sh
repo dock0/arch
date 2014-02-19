@@ -3,6 +3,9 @@
 
 set -e
 
+# Hack to make TTY a thing (https://github.com/dotcloud/docker/issues/728)
+exec >/dev/tty 2>/dev/tty </dev/tty
+
 # chdir to the script path
 cd $(dirname "${BASH_SOURCE[0]}")
 
