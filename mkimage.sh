@@ -21,6 +21,14 @@ ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen
 
+# Install runit
+git clone git://github.com/akerl/runit /opt/runit
+(cd /opt/runit && ./package/compile)
+cp /opt/runit/command/* $rootfs/usr/local/sbin/
+mkdir $rootfs/etc/runit $rootfs/etc/sv $rootfs/service
+cp /opt/runit/etc/debian/{1,2,3,ctrlaltdel} $rootfs/etc/runit/
+ln -s /usr/local/sbin/runit-init $rootfs/sbin/init
+
 # udev doesn't work in containers, rebuild /dev
 dev=$rootfs/dev
 rm -rf $dev
