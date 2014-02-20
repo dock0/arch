@@ -9,30 +9,30 @@ exec >/dev/tty 2>/dev/tty </dev/tty
 # chdir to the script path
 cd $(dirname "${BASH_SOURCE[0]}")
 
-# Get the necessary packages on the build system
-pacman -Syu --needed --noconfirm arch-install-scripts tar base-devel
-# Bootstrap the new image with packages
+echo 'Installing packages on build system'
+pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
+echo 'Bootstrap new root FS with packages'
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
-pacstrap -c -d -G $rootfs pacman gzip
+pacstrap -c -d -G $rootfs pacman gzip &>/dev/null
 
-# Load on the pacman config
+echo 'Copy over pacman configuration'
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
-# Set locale/timezone
+echo 'Set timezone and locale'
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
-arch-chroot $rootfs locale-gen
+arch-chroot $rootfs locale-gen >/dev/null
 
-# Install runit
-git clone git://github.com/akerl/runit /opt/runit
-(cd /opt/runit && ./package/compile)
+echo 'Install runit'
+git clone git://github.com/akerl/runit /opt/runit &>/dev/null
+(cd /opt/runit && ./package/compile &>/dev/null)
 cp /opt/runit/command/* $rootfs/sbin/
 mkdir $rootfs/etc/runit $rootfs/etc/sv $rootfs/service
 cp /opt/runit/etc/debian/{1,2,3,ctrlaltdel} $rootfs/etc/runit/
 ln -s /usr/local/sbin/runit-init $rootfs/sbin/init
 
-# udev doesn't work in containers, rebuild /dev
+echo 'Populate /dev on new root FS'
 dev=$rootfs/dev
 rm -rf $dev
 mkdir -p $dev
@@ -53,11 +53,16 @@ ln -s /proc/self/fd/1 $dev/stdout
 ln -s /proc/self/fd/2 $dev/stderr
 ln -s /proc/self/fd $dev/fd
 
-# Clean up some junk on the filesystem
+echo 'Clean up some unneeded files'
 rm -rf $rootfs/user/share/man/*
-find $rootfs/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec rm -r {} \;
+find $rootfs/usr/share/locale \
+    -mindepth 1 \
+    -maxdepth 1 \
+    -type d \
+    -not -name 'en_US' \
+    -exec rm -r {} \;
 
-# Pack up the new image
+echo 'Pack up the root FS'
 rm -rf root.tar.xz
 tar --numeric-owner -C $rootfs -cJf root.tar.xz .
 
