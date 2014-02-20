@@ -13,7 +13,7 @@ cd $(dirname "${BASH_SOURCE[0]}")
 pacman -Syu --needed --noconfirm arch-install-scripts tar base-devel
 # Bootstrap the new image with packages
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
-pacstrap -c -d -G $rootfs $(cat packages)
+pacstrap -c -d -G $rootfs pacman gzip
 
 # Load on the pacman config
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
