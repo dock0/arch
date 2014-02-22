@@ -19,6 +19,10 @@ echo 'Copy over pacman configuration'
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
+echo 'Generate image pacman keys'
+arch-chroot $rootfs pacman-key --init
+arch-chroot $rootfs pacman-key --populate
+
 echo 'Set timezone and locale'
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
