@@ -40,7 +40,7 @@ git clone git://github.com/akerl/runit /opt/runit &>/dev/null
 cp /opt/runit/command/* $rootfs/sbin/
 mkdir $rootfs/etc/runit $rootfs/etc/sv $rootfs/service
 cp /opt/runit/etc/debian/{1,2,3,ctrlaltdel} $rootfs/etc/runit/
-ln -s /usr/local/sbin/runit-init $rootfs/sbin/init
+ln -s /sbin/runit-init $rootfs/sbin/init
 
 echo 'Populate /dev on new root FS'
 dev=$rootfs/dev
