@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec /usr/bin/syslog-ng -F 2>&1
+
