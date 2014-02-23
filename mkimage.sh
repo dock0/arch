@@ -9,6 +9,12 @@ exec >/dev/tty 2>/dev/tty </dev/tty
 # chdir to the script path
 cd $(dirname "${BASH_SOURCE[0]}")
 
+if [ ! -e /etc/pacman.d/gnupg ] ; then
+    echo 'Generating pacman keys on build system'
+    pacman-key --init &>/dev/null
+    pacman-key --populate &>/dev/null
+fi
+
 echo 'Installing packages on build system'
 pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
 echo 'Bootstrap new root FS with packages'
@@ -20,8 +26,8 @@ cp /etc/pacman.conf $rootfs/etc/pacman.conf
 cp /etc/pacman.d/mirrorlist $rootfs/etc/pacman.d/mirrorlist
 
 echo 'Generate image pacman keys'
-arch-chroot $rootfs pacman-key --init
-arch-chroot $rootfs pacman-key --populate
+arch-chroot $rootfs pacman-key --init &>/dev/null
+arch-chroot $rootfs pacman-key --populate &>/dev/null
 
 echo 'Set timezone and locale'
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
