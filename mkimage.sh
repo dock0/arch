@@ -33,6 +33,7 @@ echo 'Set timezone and locale'
 ln -s /usr/share/zoneinfo/US/Eastern $rootfs/etc/localtime
 echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen >/dev/null
+echo 'LANG="en_US.UTF-8"' > /etc/locale.conf
 
 echo 'Install runit'
 git clone git://github.com/akerl/runit /opt/runit &>/dev/null
