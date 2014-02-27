@@ -4,5 +4,5 @@ ADD root.tar.xz /
 RUN pacman -Syu --needed --noconfirm \
     git strace tmux tree vim \
     inetutils iproute2 iputils net-tools \
-    lsof net-tools procps-ng psmisc
+    lsof net-tools procps-ng psmisc dnsutils
 CMD ["/sbin/init"]
