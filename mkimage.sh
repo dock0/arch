@@ -69,6 +69,9 @@ find $rootfs/usr/share/locale \
     -type d \
     -not -name 'en_US' \
     -exec rm -r {} \;
+rm -rf $roofs/srv/{ftp,http}
+rm -rf $rootfs/etc/pacman.d/gnupg/pubring.gpg~
+rm -rf $rootfs/var/lib/pacman/sync/*.db $rootfs/var/lib/pacman/local/*
 
 echo 'Pack up the root FS'
 rm -rf root.tar.xz
