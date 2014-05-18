@@ -32,14 +32,6 @@ echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen >/dev/null
 echo 'LANG="en_US.UTF-8"' > $rootfs/etc/locale.conf
 
-echo 'Install runit'
-git clone git://github.com/akerl/runit /opt/runit &>/dev/null
-(cd /opt/runit && ./package/compile &>/dev/null)
-cp /opt/runit/command/* $rootfs/sbin/
-mkdir $rootfs/etc/runit $rootfs/etc/sv $rootfs/service
-cp /opt/runit/etc/debian/{1,2,3,ctrlaltdel} $rootfs/etc/runit/
-ln -s /sbin/runit-init $rootfs/sbin/init
-
 echo 'Populate /dev on new root FS'
 dev=$rootfs/dev
 rm -rf $dev
