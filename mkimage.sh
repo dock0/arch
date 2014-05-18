@@ -16,7 +16,7 @@ echo 'Installing packages on build system'
 pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
 echo 'Bootstrap new root FS with packages'
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
-pacstrap -c -d -G $rootfs pacman gzip &>/dev/null
+pacstrap -c -d -G $rootfs pacman gzip shadow &>/dev/null
 
 echo 'Copy over pacman configuration'
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
@@ -70,8 +70,6 @@ find $rootfs/usr/share/locale \
     -not -name 'en_US' \
     -exec rm -r {} \;
 rm -rf $roofs/srv/{ftp,http}
-rm -rf $rootfs/etc/pacman.d/gnupg/pubring.gpg~
-rm -rf $rootfs/var/lib/pacman/sync/*.db $rootfs/var/lib/pacman/local/*
 
 echo 'Pack up the root FS'
 rm -rf root.tar.xz
