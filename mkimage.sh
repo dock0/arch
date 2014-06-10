@@ -13,10 +13,11 @@ if [ ! -e /etc/pacman.d/gnupg ] ; then
 fi
 
 echo 'Installing packages on build system'
+sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
 pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
 echo 'Bootstrap new root FS with packages'
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
-pacstrap -c -d -G $rootfs pacman gzip shadow &>/dev/null
+pacstrap -c -d -G $rootfs pacman gzip grep shadow &>/dev/null
 
 echo 'Copy over pacman configuration'
 cp /etc/pacman.conf $rootfs/etc/pacman.conf
