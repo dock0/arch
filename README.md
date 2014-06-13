@@ -1,7 +1,7 @@
 dock0/arch
 =======
 
-[![Trusted Build](http://img.shields.io/badge/trusted-build-green.svg)](https://index.docker.io/u/dock0/arch/)
+[![Trusted Build](http://img.shields.io/badge/trusted-build-green.svg)](https://registry.hub.docker.com/u/dock0/arch/)
 [![MIT Licensed](http://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
 A minimal Arch container
