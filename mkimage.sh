@@ -88,6 +88,7 @@ ssh -oStrictHostKeyChecking=no git@github.com &>/dev/null || true
 git add Dockerfile version
 git commit -m "Build version $VERSION"
 git tag -f "v$VERSION"
+git push origin ":v$VERSION" || true
 git push origin "v$VERSION"
 
 echo 'Push up the new root tarball'
