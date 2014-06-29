@@ -13,14 +13,14 @@ if [ ! -e /etc/pacman.d/gnupg ] ; then
 fi
 
 echo "Ensure we're on the dev branch"
-git checkout dev &>/dev/null
+git checkout -B dev &>/dev/null
 
 echo 'Installing packages on build system'
 sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
 pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby &>/dev/null
 echo 'Install ruby deps and set PATH'
 PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
-gem install targit
+gem install --no-rdoc --no-ri targit &>/dev/null
 echo 'Bootstrap new root FS with packages'
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
 pacstrap -c -d -G $rootfs pacman gzip grep shadow &>/dev/null
