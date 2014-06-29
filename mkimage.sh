@@ -86,7 +86,7 @@ echo $VERSION > version
 echo 'Commit and tag new version'
 git add Dockerfile version
 git commit -m "Build version $VERSION"
-git tag "v$VERSION"
+git tag -f "v$VERSION"
 git push origin dev
 git push origin "v$VERSION"
 
