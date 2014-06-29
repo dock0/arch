@@ -80,7 +80,7 @@ VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
 echo "New version is $VERSION"
 
 echo 'Updating Dockerfile and version file'
-sed -i "s|download/v0\.0\.1/root|download/v$VERSION/root|" Dockerfile
+sed -i "s|download/v[0-9.]*/root|download/v$VERSION/root|" Dockerfile
 echo $VERSION > version
 
 echo 'Commit and tag new version'
