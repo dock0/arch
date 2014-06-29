@@ -91,7 +91,7 @@ git tag -f "v$VERSION"
 git push origin "v$VERSION"
 
 echo 'Push up the new root tarball'
-targit -c -f dock0/arch v$VERSION root.tar.xz
+targit -a .github -c -f dock0/arch v$VERSION root.tar.xz
 
 echo 'Merge new version into master'
 git checkout master
