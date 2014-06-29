@@ -85,18 +85,18 @@ echo $VERSION > version
 
 echo 'Commit and tag new version'
 ssh -oStrictHostKeyChecking=no git@github.com &>/dev/null || true
-git add Dockerfile version &>/dev/null
-git commit -m "Build version $VERSION" &>/dev/null
-git tag -f "v$VERSION" &>/dev/null
-git push origin "v$VERSION"&>/dev/null
+git add Dockerfile version
+git commit -m "Build version $VERSION"
+git tag -f "v$VERSION"
+git push origin "v$VERSION"
 
 echo 'Push up the new root tarball'
 targit -c -f dock0/arch v$VERSION root.tar.xz
 
 echo 'Merge new version into master'
-git checkout master &>/dev/null
-git merge "v$VERSION" &>/dev/null
-git push origin master &>/dev/null
+git checkout master
+git merge "v$VERSION"
+git push origin master
 
 echo 'Docker should be building the new image shortly:'
 echo 'https://registry.hub.docker.com/u/dock0/arch/builds_history/12446/'
