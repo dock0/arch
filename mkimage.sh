@@ -17,7 +17,7 @@ git checkout -B dev &>/dev/null
 
 echo 'Installing packages on build system'
 sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
-pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby &>/dev/null
+pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby openssh &>/dev/null
 echo 'Install ruby deps and set PATH'
 PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
 gem install --no-rdoc --no-ri targit &>/dev/null
