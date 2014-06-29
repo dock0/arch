@@ -12,6 +12,9 @@ if [ ! -e /etc/pacman.d/gnupg ] ; then
     pacman-key --populate &>/dev/null
 fi
 
+echo "Ensure we're on the dev branch"
+git checkout dev &>/dev/null
+
 echo 'Installing packages on build system'
 sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
 pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
@@ -68,4 +71,30 @@ find $rootfs/usr/share/locale \
 echo 'Pack up the root FS'
 rm -rf root.tar.xz
 tar --numeric-owner -C $rootfs -cJf root.tar.xz .
+
+let PATCH=$(sed -r 's/.*\.//' version)+1
+VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
+echo "New version is $VERSION"
+
+echo 'Updating Dockerfile and version file'
+sed -i "s|download/v0\.0\.1/root|download/v$VERSION/root|" Dockerfile
+echo $VERSION > version
+
+echo 'Commit and tag new version'
+git add Dockerfile version
+git commit -m "Build version $VERSION"
+git tag "v$VERSION"
+git push origin dev
+git push origin "v$VERSION"
+
+echo 'Push up the new root tarball'
+targit v0.0.1 root.tar.xz >/dev/null
+
+echo 'Merge new version into master'
+git checkout master
+git merge "v$VERSION"
+git push origin master
+
+echo 'Docker should be building the new image shortly:'
+echo 'https://registry.hub.docker.com/u/dock0/arch/builds_history/12446/'
 
