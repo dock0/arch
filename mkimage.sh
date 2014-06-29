@@ -56,13 +56,17 @@ ln -s /proc/self/fd $dev/fd
 
 echo 'Clean up some unneeded files'
 rm -rf $rootfs/user/share/man/*
-find $rootfs/usr/share/locale \
-    -mindepth 1 \
-    -maxdepth 1 \
-    -type d \
-    -not -name 'en_US' \
-    -exec rm -r {} \;
 rm -rf $roofs/srv/{ftp,http}
+set +e
+for i in {1..2} ; do
+    find $rootfs/usr/share/locale \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -type d \
+        -not -name 'en_US' \
+        | xargs rm -rf &>/dev/null
+done
+set -e
 
 echo 'Pack up the root FS'
 rm -rf root.tar.xz
