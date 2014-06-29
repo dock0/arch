@@ -17,7 +17,10 @@ git checkout dev &>/dev/null
 
 echo 'Installing packages on build system'
 sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
-pacman -Syu --noconfirm arch-install-scripts tar base-devel &>/dev/null
+pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby &>/dev/null
+echo 'Install ruby deps and set PATH'
+PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
+gem install targit
 echo 'Bootstrap new root FS with packages'
 rootfs=$(mktemp -d /build-XXXXXXXXXX)
 pacstrap -c -d -G $rootfs pacman gzip grep shadow &>/dev/null
@@ -88,7 +91,7 @@ git push origin dev
 git push origin "v$VERSION"
 
 echo 'Push up the new root tarball'
-targit v0.0.1 root.tar.xz >/dev/null
+targit -c -f dock0/arch v$VERSION root.tar.xz >/dev/null
 
 echo 'Merge new version into master'
 git checkout master
