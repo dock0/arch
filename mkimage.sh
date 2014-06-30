@@ -73,7 +73,7 @@ find $rootfs/usr/share/locale \
 
 echo 'Pack up the root FS'
 rm -rf root.tar.xz
-tar --numeric-owner -C $rootfs -cJf root.tar.xz .
+tar --numeric-owner -C $rootfs -cjf root.tar.xz .
 
 let PATCH=$(sed -r 's/.*\.//' version)+1
 VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
