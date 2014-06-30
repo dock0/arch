@@ -61,9 +61,9 @@ ln -s /proc/self/fd/2 $dev/stderr
 ln -s /proc/self/fd $dev/fd
 
 echo 'Clean up some unneeded files'
-rm -f /etc/hosts
+rm -f $rootfs/etc/hosts
 rm -rf $rootfs/user/share/man/*
-rm -rf $roofs/srv/{ftp,http}
+rm -rf $rootfs/srv/{ftp,http}
 mkdir -p /tmp/dump
 find $rootfs/usr/share/locale \
     -mindepth 1 \
