@@ -39,27 +39,6 @@ echo 'en_US.UTF-8 UTF-8' > $rootfs/etc/locale.gen
 arch-chroot $rootfs locale-gen >/dev/null
 echo 'LANG="en_US.UTF-8"' > $rootfs/etc/locale.conf
 
-echo 'Populate /dev on new root FS'
-dev=$rootfs/dev
-rm -rf $dev
-mkdir -p $dev
-mknod -m 666 $dev/null c 1 3
-mknod -m 666 $dev/zero c 1 5
-mknod -m 666 $dev/random c 1 8
-mknod -m 666 $dev/urandom c 1 9
-mkdir -m 755 $dev/pts
-mkdir -m 1777 $dev/shm
-mknod -m 666 $dev/tty c 5 0
-mknod -m 600 $dev/console c 5 1
-mknod -m 666 $dev/tty0 c 4 0
-mknod -m 666 $dev/full c 1 7
-mknod -m 600 $dev/initctl p
-mknod -m 666 $dev/ptmx c 5 2
-ln -s /proc/self/fd/0 $dev/stdin
-ln -s /proc/self/fd/1 $dev/stdout
-ln -s /proc/self/fd/2 $dev/stderr
-ln -s /proc/self/fd $dev/fd
-
 echo 'Clean up some unneeded files'
 rm -f $rootfs/etc/hosts
 rm -rf $rootfs/user/share/man/*
