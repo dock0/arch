@@ -72,8 +72,8 @@ find $rootfs/usr/share/locale \
     -exec mv {} /tmp/dump/ \;
 
 echo 'Pack up the root FS'
-rm -rf root.tar.xz
-tar --numeric-owner -C $rootfs -cjf root.tar.xz .
+rm -rf root.tar.bz2
+tar --numeric-owner -C $rootfs -cjf root.tar.bz2 .
 
 let PATCH=$(sed -r 's/.*\.//' version)+1
 VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
