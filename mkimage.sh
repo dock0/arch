@@ -40,7 +40,7 @@ arch-chroot $rootfs locale-gen >/dev/null
 echo 'LANG="en_US.UTF-8"' > $rootfs/etc/locale.conf
 
 echo 'Clean up some unneeded files'
-rm -f $rootfs/etc/hosts
+rm -f $rootfs/etc/hosts $rootfs/etc/resolv.conf
 rm -rf $rootfs/user/share/man/*
 rm -rf $rootfs/srv/{ftp,http}
 mkdir -p /tmp/dump
