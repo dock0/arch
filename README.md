@@ -10,7 +10,7 @@ A minimal Arch container
 
 From a docker host, run `./prebuild.sh`, which uses an Arch container to build a new Arch container.
 
-Inside the container, it will run mkimage.sh to generate a new root.tar.xz. GitHub dislikes the size of the root FS, if anybody has better ideas on how to make a root filesystem for a Docker container without putting a 50MB tar in the repo, please let me know.
+Inside the container, it will run mkimage.sh to generate a new root.tar.bz2. That is then added as a GitHub Release asset, which the Dockerfile uses to bootstrap the system.
 
 This image has pacman keys initialized.
 
