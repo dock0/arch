@@ -73,7 +73,7 @@ git push origin ":v$VERSION" &>/dev/null || true
 git push origin "v$VERSION" &>/dev/null
 
 echo 'Push up the new root tarball'
-targit -a .github -c -f dock0/arch v$VERSION root.tar.bz2 >/dev/null
+targit -a .github -c -f dock0/arch v$VERSION root.tar.bz2
 
 echo 'Merge new version into master'
 git checkout master &>/dev/null
