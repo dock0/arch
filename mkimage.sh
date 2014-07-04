@@ -17,7 +17,7 @@ git checkout -B dev &>/dev/null
 
 echo 'Installing packages on build system'
 sed 's/^CheckSpace/#CheckSpace/' -i /etc/pacman.conf
-pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby openssh &>/dev/null
+pacman -Syu --noconfirm arch-install-scripts tar base-devel ruby openssh go &>/dev/null
 echo 'Install ruby deps and set PATH'
 PATH="$(ruby -rubygems -e "puts Gem.user_dir")/bin:$PATH"
 gem install --no-rdoc --no-ri targit &>/dev/null
@@ -56,6 +56,12 @@ echo 'Pack up the root FS'
 rm -rf root.tar.bz2
 tar --numeric-owner -C $rootfs -cjf root.tar.bz2 .
 
+echo 'Build the ducktape shim'
+pushd shim
+go build
+strip shim
+popd
+
 let PATCH=$(sed -r 's/.*\.//' version)+1
 VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
 echo "New version is $VERSION"
@@ -66,7 +72,7 @@ echo $VERSION > version
 
 echo 'Commit and tag new version'
 ssh -oStrictHostKeyChecking=no git@github.com &>/dev/null || true
-git add Dockerfile version
+git add Dockerfile version shim/shim
 git commit -m "Build version $VERSION" &>/dev/null
 git tag -f "v$VERSION" &>/dev/null
 git push origin ":v$VERSION" &>/dev/null || true
