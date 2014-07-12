@@ -57,10 +57,10 @@ rm -rf root.tar.bz2
 tar --numeric-owner -C $rootfs -cjf root.tar.bz2 .
 
 echo 'Build the ducktape shim'
-pushd shim
+pushd shim &>/dev/null
 go build
 strip shim
-popd
+popd &>/dev/null
 
 let PATCH=$(sed -r 's/.*\.//' version)+1
 VERSION="$(sed -r 's/[0-9]+$//' version)$PATCH"
