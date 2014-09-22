@@ -8,5 +8,5 @@ cd $(dirname "${BASH_SOURCE[0]}")
 #   With my .gitconfig
 #   With this repo as /opt/mkimage
 #   Run the mkimage.sh script
-docker run --rm --privileged -t -i -v $SSH_AUTH_SOCK:/auth.sock -e SSH_AUTH_SOCK=/auth.sock -v ~/.gitconfig:/.gitconfig -v $(pwd):/opt/mkimage dock0/arch /opt/mkimage/mkimage.sh
+docker run --rm --privileged -t -i -v $SSH_AUTH_SOCK:/auth.sock -e SSH_AUTH_SOCK=/auth.sock -v ~/.gitconfig:/root/.gitconfig -v $(pwd):/opt/mkimage dock0/arch /opt/mkimage/mkimage.sh
 
