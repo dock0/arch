@@ -6,11 +6,11 @@ dock0/arch
 
 A minimal Arch container
 
-## To generate
+## Usage
 
-From a docker host, run `./prebuild.sh`, which uses an Arch container to build a new Arch container.
+To build a new arch image, run `make`. This launches the docker build container and builds a new image.
 
-Inside the container, it will run mkimage.sh to generate a new root.tar.bz2. That is then added as a GitHub Release asset, which the Dockerfile uses to bootstrap the system.
+To start a shell in the build environment for manual actions, run `make manual`.
 
 This image has pacman keys initialized.
 
