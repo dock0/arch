@@ -2,6 +2,7 @@
 
 docker run \
     --rm -t -i \
+    --cap-add=CAP_SYS_ADMIN \
     -v $SSH_AUTH_SOCK:/auth.sock \
     -e SSH_AUTH_SOCK=/auth.sock \
     -v $(pwd):/opt/arch \
