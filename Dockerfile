@@ -2,7 +2,7 @@ FROM scratch
 MAINTAINER akerl <me@lesaker.org>
 ADD shim/shim /.shim
 ADD cert /.cert
-ADD https://github.com/dock0/ducktape/releases/download/latest/ducktape /.ducktape
+ADD https://github.com/dock0/ducktape/releases/download/0.1.0/ducktape /.ducktape
 RUN ["/.shim", ""]
 RUN ["/.ducktape", "https://github.com/dock0/arch/releases/download/v0.0.30/root.tar.bz2"]
 RUN pacman -Syu --needed --noconfirm git tmux tree inetutils iproute2 iputils procps-ng
