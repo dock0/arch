@@ -15,18 +15,18 @@ container: build_container
 
 build:
 	$(eval rootfs := $(shell mktemp -d /build-XXXX))
-	pacstrap -c -d -G $$rootfs pacman gzip grep shadow
-	cp /etc/pacman.conf $$rootfs/etc/pacman.conf
-	cp /etc/pacman.d/mirrorlist $$rootfs/etc/pacman.d/mirrorlist
-	arch-chroot $$rootfs pacman-key --init
-	arch-chroot $$rootfs pacman-key --populate
-	ln -s /usr/share/zoneinfo/US/Eastern $$rootfs/etc/localtime
-	arch-chroot $$rootfs locale-gen
-	rm -f $$rootfs/etc/hosts $$rootfs/etc/resolv.conf
-	rm -rf $$rootfs/sys $$rootfs/user/share/man/* $$rootfs/srv/{ftp,http}
-	find $$rootfs/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec mv {} /tmp/ \;
+	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow
+	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
+	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
+	arch-chroot $(rootfs) pacman-key --init
+	arch-chroot $(rootfs) pacman-key --populate
+	ln -s /usr/share/zoneinfo/US/Eastern $(rootfs)/etc/localtime
+	arch-chroot $(rootfs) locale-gen
+	rm -f $(rootfs)/etc/hosts $(rootfs)/etc/resolv.conf
+	rm -rf $(rootfs)/sys $(rootfs)/user/share/man/* $(rootfs)/srv/{ftp,http}
+	find $(rootfs)/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec mv {} /tmp/ \;
 	rm -rf root.tar.bz2
-	tar --numeric-owner -C $$rootfs -cjf root.tar.bz2 .
+	tar --numeric-owner -C $(rootfs) -cjf root.tar.bz2 .
 
 shim:
 	pushd shim
