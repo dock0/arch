@@ -29,10 +29,10 @@ build:
 	tar --numeric-owner -C $(rootfs) -cjf root.tar.bz2 .
 
 shim:
-	pushd shim
+	cd shim
 	go build
 	strip shim
-	popd
+	cd $(DIR)
 
 push:
 	@echo $$(sed -r 's/[0-9]+$$//' version)$$(($$(sed -r 's/.*\.//' version) + 1)) > version
