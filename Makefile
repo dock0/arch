@@ -15,11 +15,10 @@ container: build_container
 
 build:
 	$(eval rootfs := $(shell mktemp -d /build-XXXX))
-	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow
+	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng
 	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
 	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
-	arch-chroot $(rootfs) pacman-key --init
-	arch-chroot $(rootfs) pacman-key --populate
+	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
 	ln -s /usr/share/zoneinfo/US/Eastern $(rootfs)/etc/localtime
 	arch-chroot $(rootfs) locale-gen
 	rm -f $(rootfs)/etc/hosts $(rootfs)/etc/resolv.conf
