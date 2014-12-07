@@ -5,7 +5,7 @@ docker run \
     --cap-add=SYS_ADMIN \
     -v $SSH_AUTH_SOCK:/auth.sock \
     -e SSH_AUTH_SOCK=/auth.sock \
-    -v $(pwd):/opt/arch \
+    -v $(pwd):/opt/build \
     -v ~/.gitconfig:/etc/gitconfig \
     arch $1
 
