@@ -19,7 +19,6 @@ build:
 	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
 	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
 	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
-	arch-chroot $(rootfs) pacman-db-upgrade
 	ln -s /usr/share/zoneinfo/US/Eastern $(rootfs)/etc/localtime
 	arch-chroot $(rootfs) locale-gen
 	rm -f $(rootfs)/etc/hosts $(rootfs)/etc/resolv.conf
