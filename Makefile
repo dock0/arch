@@ -15,7 +15,7 @@ container: build_container
 
 build:
 	$(eval rootfs := $(shell mktemp -d /build-XXXX))
-	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng
+	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng sed
 	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
 	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
 	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
