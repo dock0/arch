@@ -18,9 +18,8 @@ build:
 	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng sed
 	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
 	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
-	cp -R trusted-keys $(rootfs)/etc/pacman.d/
-	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate"
-	arch-chroot $(rootfs) /bin/sh -c "find /etc/pacman.d/trusted-keys/ -exec pacman-key --import {} \; pkill gpg-agent"
+	cp -R keyrings/* $(rootfs)/usr/share/pacman/keyrings/
+	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
 	ln -s /usr/share/zoneinfo/UTC $(rootfs)/etc/localtime
 	echo 'en_US.UTF-8 UTF-8' > $(rootfs)/etc/locale.gen
 	arch-chroot $(rootfs) locale-gen
