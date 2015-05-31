@@ -16,18 +16,12 @@ container: build_container
 build:
 	$(eval rootfs := $(shell mktemp -d /build-XXXX))
 	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng sed
-	cp /etc/pacman.conf $(rootfs)/etc/pacman.conf
-	cp /etc/pacman.d/mirrorlist $(rootfs)/etc/pacman.d/mirrorlist
-	cp -R keyrings/* $(rootfs)/usr/share/pacman/keyrings/
+	cd overlay && cp -R * $(rootfs)/
 	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
-	ln -s /usr/share/zoneinfo/UTC $(rootfs)/etc/localtime
-	echo 'en_US.UTF-8 UTF-8' > $(rootfs)/etc/locale.gen
 	arch-chroot $(rootfs) locale-gen
-	echo 'LANG="en_US.UTF-8"' > $(rootfs)/etc/locale.conf
-	rm -f $(rootfs)/etc/hosts $(rootfs)/etc/resolv.conf
-	rm -rf $(rootfs)/sys $(rootfs)/user/share/man/* $(rootfs)/srv/{ftp,http}
+	cd $(rootfs) && rm -f etc/hosts etc/resolv.conf sys usr/share/man/* srv/{ftp,http}
 	find $(rootfs)/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec mv {} /tmp/ \;
-	rm -rf root.tar.bz2
+	rm -f root.tar.bz2
 	tar --numeric-owner -C $(rootfs) -cjf root.tar.bz2 .
 
 shim:
