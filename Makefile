@@ -36,7 +36,7 @@ push:
 	git push origin "$$(cat version)"
 	@sleep 5
 	targit -a .github -c -f dock0/arch $$(cat version) root.tar.bz2
-	@echo 'https://registry.hub.docker.com/u/dock0/arch/builds_history/12446/'
+	@echo 'https://hub.docker.com/r/dock0/arch/builds/'
 	git push origin master
 
 local: build shim push
