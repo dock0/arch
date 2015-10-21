@@ -3,9 +3,9 @@ machine:
     - docker
 dependencies:
   override:
-    - docker build test .
+    - docker build -t test .
 test:
   override:
-    - docker run -ti arch /bin/true
-    - docker run -ti arch
-    - docker run -ti arch pacman -S --noconfirm make
+    - docker run -ti test /bin/true
+    - docker run -ti test
+    - docker run -ti test pacman -S --noconfirm make
