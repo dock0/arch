@@ -7,5 +7,5 @@ dependencies:
 test:
   override:
     - docker run -ti test /bin/true
-    - docker run -ti test
+    - docker run -ti test /bin/bash --version
     - docker run -ti test pacman -S --noconfirm make
