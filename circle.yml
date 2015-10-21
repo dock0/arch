@@ -1,0 +1,11 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - docker build test .
+test:
+  override:
+    - docker run -ti arch /bin/true
+		- docker run -ti arch
+		- docker run -ti arch pacman -S --noconfirm make
