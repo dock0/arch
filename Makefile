@@ -19,7 +19,7 @@ build:
 	cd overlay && cp -R * $(rootfs)/
 	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
 	arch-chroot $(rootfs) locale-gen
-	cd $(rootfs) && rm -rf etc/hosts etc/resolv.conf sys usr/share/man/* srv/{ftp,http}
+	cd $(rootfs) && rm -rf etc/hosts etc/resolv.conf sys usr/share/man/* srv/{ftp,http} proc
 	find $(rootfs)/usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -name 'en_US' -exec mv {} /tmp/ \;
 	rm -f root.tar.bz2
 	tar --numeric-owner -C $(rootfs) -cjf root.tar.bz2 .
