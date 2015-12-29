@@ -1,0 +1,14 @@
+item do
+  name 'arch::ducktape'
+
+  expected do
+    github_release
+    repo 'dock0/ducktape'
+  end
+
+  actual do
+    grep
+    file 'Dockerfile'
+    regex /^ENV DUCKTAPE_VERSION ([\d.]+)$/
+  end
+end
