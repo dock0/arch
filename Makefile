@@ -1,4 +1,4 @@
-REPO ?= dock/arch
+REPO ?= dock0/arch
 
 .PHONY : default build_container manual container build shim push local
 
