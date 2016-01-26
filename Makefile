@@ -1,4 +1,4 @@
-DIR=$(shell pwd)
+REPO ?= dock/arch
 
 .PHONY : default build_container manual container build shim push local
 
@@ -15,7 +15,7 @@ container: build_container
 
 build:
 	$(eval rootfs := $(shell mktemp -d /build-XXXX))
-	pacstrap -c -d -G $(rootfs) pacman gzip grep shadow procps-ng sed
+	pacstrap -c -d -G $(rootfs) $$(cat packages)
 	cd overlay && cp -R * $(rootfs)/
 	arch-chroot $(rootfs) /bin/sh -c "pacman-key --init; pacman-key --populate; pkill gpg-agent"
 	arch-chroot $(rootfs) locale-gen
@@ -35,8 +35,8 @@ push:
 	git tag -f "$$(cat version)"
 	git push origin "$$(cat version)"
 	@sleep 5
-	targit -a .github -c -f dock0/arch $$(cat version) root.tar.bz2
-	@echo 'https://hub.docker.com/r/dock0/arch/builds/'
+	targit -a .github -c -f $(REPO) $$(cat version) root.tar.bz2
+	@echo 'https://hub.docker.com/r/$(REPO)/builds/'
 	git push origin master
 
 local: build shim push
