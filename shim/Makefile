@@ -3,7 +3,7 @@
 default: build
 
 clean:
-	rm shim
+	rm -f shim
 
 build: clean
 	musl-gcc main.c -o shim -static
