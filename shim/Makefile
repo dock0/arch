@@ -6,6 +6,6 @@ clean:
 	rm shim
 
 build: clean
-	go build
+	musl-gcc main.c -o shim -static
 	strip shim
 
