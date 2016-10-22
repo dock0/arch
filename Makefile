@@ -29,7 +29,7 @@ shim:
 
 push:
 	@echo $$(sed -r 's/[0-9]+$$//' version)$$(($$(sed -r 's/.*\.//' version) + 1)) > version
-	sed -i "s|download/[0-9.]*/root|download/$$(cat version)/root|" Dockerfile
+	sed -i "s|^ENV ROOTFS_VERSION .*|ENV ROOTFS_VERSION $$(cat version)|" Dockerfile
 	git commit -am "$$(cat version)"
 	ssh -oStrictHostKeyChecking=no git@github.com &>/dev/null || true
 	git tag -f "$$(cat version)"
