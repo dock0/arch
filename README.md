@@ -5,7 +5,7 @@ dock0/arch
 [![Build Status](https://img.shields.io/circleci/project/dock0/arch/master.svg)](https://circleci.com/gh/dock0/arch)
 [![MIT Licensed](http://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
-A minimal Arch container with the [amylum](https://github.com/amylum/repo) repo added
+A minimal Arch container, used as the baseline for my other containers. It used to contain the [amylum](https://github.com/amylum/repo) repo, but I've moved that to [dock0/staticarch](https://github.com/dock0/staticarch)
 
 ## Usage
 
