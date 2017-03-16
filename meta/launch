@@ -3,6 +3,7 @@
 docker run \
     --rm -t -i \
     --cap-add=SYS_ADMIN \
+    --security-opt apparmor:unconfined \
     -v $SSH_AUTH_SOCK:/auth.sock \
     -e SSH_AUTH_SOCK=/auth.sock \
     -v $(pwd):/opt/build \
