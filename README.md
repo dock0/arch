@@ -5,7 +5,7 @@ dock0/arch
 [![Build Status](https://img.shields.io/circleci/project/dock0/arch/master.svg)](https://circleci.com/gh/dock0/arch)
 [![MIT Licensed](http://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
 
-A minimal Arch container, used as the baseline for my other containers. It used to contain the [amylum](https://github.com/amylum/repo) repo, but I've moved that to [dock0/static_arch](https://github.com/dock0/static_arch)
+A minimal Arch container, used as the baseline for my other containers. It used to contain the [amylum](https://github.com/amylum/repo) repo, but I've moved that to [dock0/static_arch](https://github.com/dock0/static_arch). If you want an Archlinux container that has the whole [base](https://www.archlinux.org/groups/x86_64/base/) package group, check out [dock0/full_arch](https://github.com/dock0/full_arch).
 
 ## Usage
 
