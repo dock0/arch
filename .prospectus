@@ -1,14 +1,26 @@
+Prospectus.extra_dep('file', 'prospectus_circleci')
+Prospectus.extra_dep('file', 'prospectus_dockerhub')
+
 item do
-  name 'arch::ducktape'
+  noop
 
-  expected do
-    github_release
-    repo 'dock0/ducktape'
+  deps do
+    item do
+      name 'arch::ducktape'
+
+      expected do
+        github_release
+        repo 'dock0/ducktape'
+      end
+
+      actual do
+        grep
+        file 'Dockerfile'
+        regex /^ENV DUCKTAPE_VERSION ([\d.]+)$/
+      end
+    end
   end
 
-  actual do
-    grep
-    file 'Dockerfile'
-    regex /^ENV DUCKTAPE_VERSION ([\d.]+)$/
-  end
+  extend ProspectusCircleci::Build.new('dock0/arch')
+  extend ProspectusDockerhub::Build.new('dock0/arch')
 end
