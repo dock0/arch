@@ -6,7 +6,7 @@ item do
 
   deps do
     item do
-      name 'arch::ducktape'
+      name 'ducktape'
 
       expected do
         github_release
