@@ -1,4 +1,4 @@
-Prospectus.extra_dep('file', 'prospectus_circleci')
+Prospectus.extra_dep('file', 'prospectus_travis')
 Prospectus.extra_dep('file', 'prospectus_dockerhub')
 
 item do
@@ -21,6 +21,6 @@ item do
     end
   end
 
-  extend ProspectusCircleci::Build.new('dock0/arch')
+  extend ProspectusTravis::Build.new('dock0/arch')
   extend ProspectusDockerhub::Build.new('dock0/arch')
 end
