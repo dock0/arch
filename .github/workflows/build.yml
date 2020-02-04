@@ -13,22 +13,17 @@ jobs:
       run: docker build -t new .
     - name: Test container
       run: ./scripts/test.sh
-    - name: Publish snapshot
+    - name: Get tags
+      id: tags
+      run: ./meta/get_tags.sh
+    - name: Publish images
       uses: akerl/Publish-Docker-Github-Action@2.12
       with:
         name: ${{ github.repository }}/image
         username: ${{ github.actor }}
         password: ${{ github.token }}
         registry: docker.pkg.github.com
-        snapshot: true
-    - name: Publish tags
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: akerl/Publish-Docker-Github-Action@2.12
-      with:
-        name: ${{ github.repository }}/image
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
-        registry: docker.pkg.github.com
+        tags: ${{ steps.tags.output.tags }}
     - name: Notify on success
       if: success()
       env:
