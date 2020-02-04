@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-
-echo "this is a script!"
-
 set -euo pipefail
 
 date="$(date +%Y%m%d)"
 sha="${GITHUB_SHA::7}"
 
 tags="${date}${sha}"
+
+echo "hello script!"
 
 version_regex="^refs/tags/(v?[0-9]+)\\.([0-9]+)\\.([0-9]+)$"
 if [[ "$GITHUB_REF" =~ $version_regex ]] ; then
