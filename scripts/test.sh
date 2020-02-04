@@ -2,5 +2,5 @@
 
 set -euo pipefail
 
-docker run -i test /bin/bash --version
-docker run -i test pacman -S --noconfirm make
+docker run -i new /bin/bash --version
+docker run -i new pacman -S --noconfirm make
