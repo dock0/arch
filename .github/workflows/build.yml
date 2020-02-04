@@ -15,7 +15,7 @@ jobs:
       run: ./scripts/test.sh
     - name: Get tags
       id: tags
-      run: ./meta/get_tags.sh
+      run: ./scripts/get_tags.sh
     - name: Registry auth
       run: echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Publish images
