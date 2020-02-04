@@ -1,19 +1,14 @@
 dock0/arch
 =======
 
-[![Automated Build](https://img.shields.io/docker/build/dock0/arch.svg)](https://hub.docker.com/r/dock0/arch/)
-[![Build Status](https://img.shields.io/travis/com/dock0/arch.svg)](https://travis-ci.com/dock0/arch)
-[![MIT Licensed](http://img.shields.io/badge/license-MIT-green.svg)](https://tldrlegal.com/license/mit-license)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dock0/arch/Build)](https://github.com/dock0/arch/actions))
+[![License](https://img.shields.io/github/license/dock0/arch)](https://github.com/dock0/arch/blob/master/LICENSE)
 
 A minimal Arch container, used as the baseline for my other containers. It used to contain the [amylum](https://github.com/amylum/repo) repo, but I've moved that to [dock0/static_arch](https://github.com/dock0/static_arch). If you want an Archlinux container that has the whole [base](https://www.archlinux.org/groups/x86_64/base/) package group, check out [dock0/full_arch](https://github.com/dock0/full_arch).
 
 ## Usage
 
-To build a new arch image, run `make`. This launches the docker build container and builds a new image.
-
-To start a shell in the build environment for manual actions, run `make manual`.
-
-This image has pacman keys initialized.
+To build a new image, run `docker build .`
 
 ## License
 
