@@ -12,7 +12,7 @@ jobs:
     - name: Build container
       run: docker build -t new .
     - name: Test container
-      run: ./scripts/test
+      run: ./scripts/test.sh
     - name: Publish snapshot
       uses: akerl/Publish-Docker-Github-Action@2.12
       with:
