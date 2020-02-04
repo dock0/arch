@@ -16,14 +16,10 @@ jobs:
     - name: Get tags
       id: tags
       run: ./meta/get_tags.sh
+    - name: Registry auth
+      run: echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Publish images
-      uses: akerl/Publish-Docker-Github-Action@2.12
-      with:
-        name: ${{ github.repository }}/image
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
-        registry: docker.pkg.github.com
-        tags: ${{ steps.tags.output.tags }}
+      run: echo ${{ steps.tags.output.tags }} for ${{ github.repository }}/image
     - name: Notify on success
       if: success()
       env:
