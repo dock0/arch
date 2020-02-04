@@ -1,0 +1,50 @@
+name: Build
+on: [pull_request, push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: akerl/action-checkout@v2.0.0
+    - name: Submodules
+      run: git submodule update --init --recursive
+    - name: Build container
+      run: docker build -t new .
+    - name: Test container
+      run: ./scripts/test
+    - name: Publish snapshot
+      uses: akerl/Publish-Docker-Github-Action@2.12
+      with:
+        name: ${{ github.repository }}/image
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        registry: docker.pkg.github.com
+        snapshot: true
+    - name: Publish tags
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: akerl/Publish-Docker-Github-Action@2.12
+      with:
+        name: ${{ github.repository }}/image
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        registry: docker.pkg.github.com
+    - name: Notify on success
+      if: success()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: akerl/github-action-slack-notify-build@v1.1.0
+      with:
+        channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
+        status: success
+        color: good
+    - name: Notify on failure
+      if: failure()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: akerl/github-action-slack-notify-build@v1.1.0
+      with:
+        channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
+        status: failed
+        color: danger
+
