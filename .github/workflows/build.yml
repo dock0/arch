@@ -13,13 +13,11 @@ jobs:
       run: docker build -t new .
     - name: Test container
       run: ./scripts/test.sh
-    - name: Get tags
-      id: tags
-      run: ./meta/get_tags.sh
-    - name: Registry auth
-      run: echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Publish images
-      run: echo ${{ steps.tags.outputs.tags }} for ${{ github.repository }}/image
+      run: ./meta/publish.sh
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_REPO: ${{ github.repository }}
     - name: Notify on success
       if: success()
       env:
