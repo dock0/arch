@@ -9,15 +9,15 @@ jobs:
       uses: akerl/action-checkout@v2.0.0
     - name: Submodules
       run: git submodule update --init --recursive
-    - name: Build container
-      run: docker build -t new .
-    - name: Test container
-      run: ./scripts/test.sh
+#    - name: Build container
+#      run: docker build -t new .
+#    - name: Test container
+#      run: ./scripts/test.sh
     - name: Get tags
       id: tags
       run: ./scripts/get_tags.sh
-    - name: Registry auth
-      run: echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+#    - name: Registry auth
+#      run: echo ${{ github.token }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Publish images
       run: echo ${{ steps.tags.output.tags }} for ${{ github.repository }}/image
     - name: Notify on success
