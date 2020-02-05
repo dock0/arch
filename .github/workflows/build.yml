@@ -9,6 +9,10 @@ jobs:
       uses: akerl/action-checkout@v2.0.0
     - name: Submodules
       run: git submodule update --init --recursive
+    - name: Registry auth
+      run: ./meta/login.sh
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Build container
       run: docker build -t new .
     - name: Test container
