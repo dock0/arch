@@ -1,7 +1,4 @@
 name: Update
-on:
-  schedule:
-    - cron: "*/6 * * * *"
 jobs:
   update:
     name: Update
@@ -13,10 +10,6 @@ jobs:
       run: git submodule update --init --recursive
     - name: Update
       run: ./meta/update.rb
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-    - name: Dispatch
-      run: ./meta/dispatch.rb
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: notify on success
