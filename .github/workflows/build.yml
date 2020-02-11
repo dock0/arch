@@ -26,7 +26,7 @@ jobs:
       if: success()
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      uses: akerl/github-action-slack-notify-build@v1.1.0
+      uses: akerl/github-action-slack-notify-build@v1.1.1
       with:
         channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
         status: success
@@ -35,7 +35,7 @@ jobs:
       if: failure()
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      uses: akerl/github-action-slack-notify-build@v1.1.0
+      uses: akerl/github-action-slack-notify-build@v1.1.1
       with:
         channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
         status: failed
