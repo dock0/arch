@@ -1,0 +1,36 @@
+name: Update
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+jobs:
+  update:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: akerl/action-checkout@v2.0.0
+    - name: Submodules
+      run: git submodule update --init --recursive
+    - name: Update
+      run: ./meta/update.rb
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: notify on success
+      if: success()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: akerl/github-action-slack-notify-build@v1.1.0
+      with:
+        channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
+        status: success
+        color: good
+    - name: Notify on failure
+      if: failure()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: akerl/github-action-slack-notify-build@v1.1.0
+      with:
+        channel_id: ${{ secrets.SLACK_BOT_CHANNEL }}
+        status: failed
+        color: danger
+
