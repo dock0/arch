@@ -4,7 +4,7 @@ on:
     - cron: "*/6 * * * *"
 jobs:
   update:
-    name: Build
+    name: Update
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
