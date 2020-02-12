@@ -1,7 +1,7 @@
 name: Update
 on:
   schedule:
-  - cron: "*/30 * * * *"
+  - cron: "0 * * * *"
 jobs:
   update:
     name: Update
@@ -12,19 +12,24 @@ jobs:
     - name: Submodules
       run: git submodule update --init --recursive
     - name: Update
+      id: update
       run: ./meta/update.rb
       env:
         GITHUB_TOKEN: ${{ github.token }}
+        ALWAYS_BUMP: yes
     - name: Registry auth
       run: ./meta/login.sh
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Build container
       run: docker build -t new .
+      if: steps.update.outputs.updated == "yes"
     - name: Test container
       run: ./scripts/test.sh
+      if: steps.update.outputs.updated == "yes"
     - name: Publish images
       run: ./meta/publish.sh
+      if: steps.update.outputs.updated == "yes"
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Notify on success
