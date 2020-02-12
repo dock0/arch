@@ -23,13 +23,13 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Build container
       run: docker build -t new .
-      if: steps.update.outputs.updated == "yes"
+      if: steps.update.outputs.updated == 'yes'
     - name: Test container
       run: ./scripts/test.sh
-      if: steps.update.outputs.updated == "yes"
+      if: steps.update.outputs.updated == 'yes'
     - name: Publish images
       run: ./meta/publish.sh
-      if: steps.update.outputs.updated == "yes"
+      if: steps.update.outputs.updated == 'yes'
       env:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Notify on success
