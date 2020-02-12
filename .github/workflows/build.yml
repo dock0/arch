@@ -21,7 +21,6 @@ jobs:
       run: ./meta/publish.sh
       env:
         GITHUB_TOKEN: ${{ github.token }}
-        GITHUB_REPO: ${{ github.repository }}
     - name: Notify on success
       if: success()
       env:
