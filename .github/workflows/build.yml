@@ -33,7 +33,7 @@ jobs:
       if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
     - name: Publish images
       run: ./meta/publish.sh
-      if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
+      if: github.event_name == 'push' || steps.update.outputs.updated == 'yes'
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
