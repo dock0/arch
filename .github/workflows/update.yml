@@ -1,4 +1,7 @@
 name: Update
+on:
+  schedule:
+  - cron: "*/30 * * * *"
 jobs:
   update:
     name: Update
@@ -12,7 +15,19 @@ jobs:
       run: ./meta/update.rb
       env:
         GITHUB_TOKEN: ${{ github.token }}
-    - name: notify on success
+    - name: Registry auth
+      run: ./meta/login.sh
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Build container
+      run: docker build -t new .
+    - name: Test container
+      run: ./scripts/test.sh
+    - name: Publish images
+      run: ./meta/publish.sh
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Notify on success
       if: success()
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
