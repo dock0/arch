@@ -19,8 +19,6 @@ jobs:
       run: ./meta/login.sh
       env:
         GITHUB_TOKEN: ${{ github.token }}
-    - name: Test
-      run: echo ${GITHUB_SHA}
     - name: Build container
       run: docker build -t new .
     - name: Test container
