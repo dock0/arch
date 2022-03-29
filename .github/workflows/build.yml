@@ -18,7 +18,7 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ github.token }}
     - name: Update
       id: update
       run: ./meta/update.rb
@@ -34,8 +34,6 @@ jobs:
     - name: Publish images
       run: ./meta/publish.sh
       if: github.event_name == 'push' || steps.update.outputs.updated == 'yes'
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     - name: Post to a Slack channel
       if: ${{ always() }}
       uses: slackapi/slack-github-action@v1.18.0
