@@ -35,7 +35,7 @@ jobs:
       run: ./meta/publish.sh
       if: github.event_name == 'push' || steps.update.outputs.updated == 'yes'
     - name: Post to a Slack channel
-      if: ${{ always() }}
+      if: ${{ failure() }}
       uses: slackapi/slack-github-action@v1.18.0
       with:
         channel-id: ${{ secrets.SLACK_BOT_CHANNEL }}
