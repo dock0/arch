@@ -1,9 +1,10 @@
+---
 name: Build
-on:
+'on':
   pull_request:
   push:
   schedule:
-  - cron: "0 * * * *"
+  - cron: 0 * * * *
 jobs:
   build:
     name: Build
@@ -17,26 +18,26 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
+        username: "${{ github.actor }}"
+        password: "${{ github.token }}"
     - name: Update
       id: update
-      run: ./meta/update.rb
+      run: "./meta/update.rb"
       if: github.event_name == 'schedule'
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: "${{ github.token }}"
     - name: Build container
       run: docker build -t new . || docker build -t new .
       if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
     - name: Test container
-      run: ./scripts/test.sh
+      run: "./scripts/test.sh"
       if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
     - name: Publish images
-      run: ./meta/publish.sh || ./meta/publish.sh
+      run: "./meta/publish.sh || ./meta/publish.sh"
       if: github.event_name == 'push' || steps.update.outputs.updated == 'yes'
     - name: Post to hook-exporter
-      run: ./.github/exporter.sh
+      run: "./.github/exporter.sh"
       env:
-        EXPORTER_TOKEN: ${{ secrets.EXPORTER_TOKEN }}
-        JOB_STATUS: ${{ job.status }}
-      if: ${{ always() }}
+        EXPORTER_TOKEN: "${{ secrets.EXPORTER_TOKEN }}"
+        JOB_STATUS: "${{ job.status }}"
+      if: "${{ always() }}"
