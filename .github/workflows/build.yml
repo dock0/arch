@@ -4,44 +4,16 @@ name: Build
   push:
     branches:
     - main
-    tags:
-    - "**"
-  schedule:
-  - cron: 0 * * * *
-  pull_request_target:
+  pull_request:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: "${{ github.actor }}"
-        password: "${{ github.token }}"
-    - name: Update
-      id: update
-      run: "./meta/update.rb"
-      if: github.event_name == 'schedule'
-      env:
-        GITHUB_TOKEN: "${{ github.token }}"
-    - name: Build container
-      run: docker build -t new . || docker build -t new .
-      if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
-    - name: Test container
-      run: "./scripts/test.sh"
-      if: github.event_name != 'schedule' || steps.update.outputs.updated == 'yes'
-    - name: Publish images
-      run: "./meta/publish.sh || ./meta/publish.sh"
-      if: github.event_name == 'push' || steps.update.outputs.updated == 'yes'
+    - name: Run Docker CI
+      uses: akerl/.github/actions/base-docker@main
     - name: Post to hook-exporter
-      run: "./.github/exporter.sh"
-      env:
-        EXPORTER_TOKEN: "${{ secrets.EXPORTER_TOKEN }}"
-        JOB_STATUS: "${{ job.status }}"
-      if: always() && github.ref == 'refs/heads/main'
+      uses: akerl/.github/actions/hook-exporter@main
+      with:
+        token: ${{ secrets.EXPORTER_TOKEN }}
+        status: ${{ job.status }}
