@@ -3,6 +3,7 @@ updates:
   - package-ecosystem: docker
     directory: /
     schedule:
+      interval: "cron"
       interval: '0 * * * *'
     labels:
       - mergewhenready
