@@ -1,7 +1,15 @@
 version: 2
+registries:
+  ghcr-registry:
+    type: docker-registry
+    url: ghcr.io
+    username: akerl
+    password: ${{ secrets.REPO_TOKEN }}
 updates:
   - package-ecosystem: docker
     directory: /
+    registries:
+      - ghcr-registry
     schedule:
       interval: daily
     labels:
