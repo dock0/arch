@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: docker
     directory: /
     schedule:
-      interval: "cron"
-      cronjob: '0 * * * *'
+      interval: daily
     labels:
       - mergewhenready
   - package-ecosystem: github-actions
