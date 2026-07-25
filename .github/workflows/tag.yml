@@ -1,0 +1,30 @@
+---
+name: Tag
+'on':
+  push:
+    branches:
+    - main
+jobs:
+  tag:
+    name: Tag
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Docker CI
+      uses: akerl/.github/actions/base-docker@main
+    - name: Authenticate to Github App
+      id: app-auth
+      uses: akerl/.github/actions/github-app-auth@main
+      with:
+        client-id: ${{ secrets.APP_CLIENT_ID }}
+        private-key: ${{ secrets.APP_PRIVATE_KEY }}
+    - name: Bump version and push tag
+      uses: mathieudutour/github-tag-action@v6.2
+      with:
+        github_token: ${{ steps.app-auth.outputs.token }}
+        tag_prefix: 'v'
+    - name: Post to hook-exporter
+      uses: akerl/.github/actions/hook-exporter@main
+      with:
+        token: ${{ secrets.EXPORTER_TOKEN }}
+        status: ${{ job.status }}
+      if: always()

@@ -2,8 +2,8 @@
 name: Publish
 'on':
   push:
-    branches:
-    - main
+    tags:
+    - "**"
 jobs:
   publish:
     name: Publish
@@ -13,9 +13,6 @@ jobs:
     steps:
     - name: Run Docker CI
       uses: akerl/.github/actions/base-docker@main
-    - name: Post to hook-exporter
-      uses: akerl/.github/actions/hook-exporter@main
-      with:
-        token: ${{ secrets.EXPORTER_TOKEN }}
-        status: ${{ job.status }}
-      if: always()
+    - name: Publish images
+      shell: bash
+      run: ./meta/publish.sh
