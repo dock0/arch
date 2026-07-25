@@ -1,9 +1,6 @@
 ---
 name: Build
 'on':
-  push:
-    branches:
-    - main
   pull_request:
 jobs:
   build:
@@ -12,8 +9,3 @@ jobs:
     steps:
     - name: Run Docker CI
       uses: akerl/.github/actions/base-docker@main
-    - name: Post to hook-exporter
-      uses: akerl/.github/actions/hook-exporter@main
-      with:
-        token: ${{ secrets.EXPORTER_TOKEN }}
-        status: ${{ job.status }}
