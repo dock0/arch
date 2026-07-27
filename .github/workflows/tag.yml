@@ -8,6 +8,8 @@ jobs:
   tag:
     name: Tag
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
     - name: Run Docker CI
       uses: akerl/.github/actions/base-docker@main
