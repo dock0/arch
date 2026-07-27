@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Run Docker CI
       uses: akerl/.github/actions/base-docker@main
+    - name: Publish images
+      run: ./meta/publish.sh
     - name: Authenticate to Github App
       id: app-auth
       uses: akerl/.github/actions/github-app-auth@main
