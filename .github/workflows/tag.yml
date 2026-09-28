@@ -22,7 +22,7 @@ jobs:
         client-id: ${{ secrets.APP_CLIENT_ID }}
         private-key: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Bump version and push tag
-      uses: mathieudutour/github-tag-action@v6.2
+      uses: mathieudutour/github-tag-action@v7
       with:
         github_token: ${{ steps.app-auth.outputs.token }}
         tag_prefix: 'v'
