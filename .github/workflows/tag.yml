@@ -4,6 +4,8 @@ name: Tag
   push:
     branches:
     - main
+  schedule:
+  - cron: 0 * * * *
 jobs:
   tag:
     name: Tag
